@@ -1,15 +1,16 @@
 const http = require('http');
 
-const routes = require('./router.js');
+const { routes } = require('./routes.js');
 
-const router = routes.routes;
 
 http.createServer((request, response) => {
-    if (request.url in router) {
-        return router[request.url](request, response)
-    } else {
-        response.writeHead(404);
-        response.end('oooops');
-    }
-
+    routes(request, response);
 }).listen(8181);
+
+/* if (request.url in router) {
+    return router[request.url](request, response)
+} else {
+    response.writeHead(404);
+    response.end('oooops');
+}
+ */
