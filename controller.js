@@ -115,19 +115,3 @@ module.exports = {
     urlHandler
 
 };
-
-/*  const firstValue = dataObj[Object.keys(dataObj)[0]]; // 👉️ '1'
-         console.log(firstValue); */
-/* const keys = Object.keys(dataObj) // 👉️ ['one', 'two', 'three']
-console.log(keys) */
-
-/* 
-for (var pair of parsedData.entries()) {
-    dataObj[pair[0]] = pair[1];
-}
-
-for (var k in dataObj) {
-    console.log(k + ": " + dataObj[k]);
-}
-
-console.log("dataObj: ", dataObj); */
