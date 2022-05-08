@@ -1,4 +1,4 @@
-const { postHandler, defaultHandler } = require('./controller.js');
+const { postHandler, getHandler, putHandler, defaultHandler, urlHandler } = require('./controller.js');
 
 const routes = (request, response) => {
     const reqURL = request.url;
@@ -8,10 +8,30 @@ const routes = (request, response) => {
         case "POST":
             {
                 if (reqURL === '/dataService') {
-                    postHandler(request.response);
+                    postHandler(request, response);
+                } else {
+                    urlHandler(request, response)
                 }
                 break;
             }
+        case "GET":
+            {
+                if (reqURL === '/data') {
+                    getHandler(request, response);
+                } else {
+                    urlHandler(request, response);
+                }
+                break;
+            }
+        case "PUT":
+            {
+                if (reqURL === '/update') {
+                    putHandler(request, response);
+                } else {
+                    urlHandler(request, response);
+                }
+            }
+            break;
         default:
             {
                 defaultHandler(request, response);
@@ -19,17 +39,3 @@ const routes = (request, response) => {
     }
 };
 module.exports = { routes };
-
-/* '/': (request, response) => {
-    response.writeHead(200, { "Content-Type": "text/plain" });
-    response.write(
-        JSON.stringify({
-            message: `API not found at ${request.url}`,
-        })
-    );
-    response.end();
-
-},
-'/dataService': (request, response) => {
-    return httpHandlers.httpHandlers(request, response)
-} */

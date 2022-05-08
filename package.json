@@ -1,7 +1,6 @@
 {
   "name": "partproject",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,5 +11,10 @@
     "url": "https://gitlab.partdp.ir/internship/projects/monireh.rahmani/partproject.git"
   },
   "author": "Monireh Rahmani",
-  "license": "ISC"
+  "license": "ISC",
+  "keywords": [],
+  "description": "",
+  "dependencies": {
+    "redis": "^4.0.6"
+  }
 }
