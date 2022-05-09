@@ -1,10 +1,12 @@
 const { postHandler, getHandler, putHandler, defaultHandler, urlHandler } = require('./controller.js');
+const clientData = require('./clientData');
 
 const routes = (request, response) => {
     const reqURL = request.url;
     const reqMethod = request.method;
 
     switch (reqMethod) {
+
         case "POST":
             {
                 if (reqURL === '/dataService') {
@@ -16,7 +18,7 @@ const routes = (request, response) => {
             }
         case "GET":
             {
-                if (reqURL === '/data') {
+                if (reqURL === '/dataService') {
                     getHandler(request, response);
                 } else {
                     urlHandler(request, response);
@@ -25,7 +27,7 @@ const routes = (request, response) => {
             }
         case "PUT":
             {
-                if (reqURL === '/update') {
+                if (reqURL === '/dataService') {
                     putHandler(request, response);
                 } else {
                     urlHandler(request, response);

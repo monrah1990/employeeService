@@ -8,7 +8,7 @@ client.on("error", (err) => {
     console.log(err);
 });
 
-const storeToRedis = (request, response, dataObj) => {
+const storeToRedis = async(request, response, dataObj) => {
 
     client.connect();
     client.select(1);
@@ -35,7 +35,7 @@ const storeToRedis = (request, response, dataObj) => {
 
             })
 
-
+    // await client.disconnect();
 }
 
 
