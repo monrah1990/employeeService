@@ -2,8 +2,17 @@ const { postHandler, getHandler, putHandler, defaultHandler, urlHandler } = requ
 const clientData = require('./clientData');
 
 const routes = (request, response) => {
+
     const reqURL = request.url;
     const reqMethod = request.method;
+
+    let data = "";
+    request.on('data', (chunk) => {
+        data += chunk;
+        dataObj = JSON.parse(data);
+
+    });
+
 
     switch (reqMethod) {
 
@@ -38,6 +47,9 @@ const routes = (request, response) => {
             {
                 defaultHandler(request, response);
             }
+
+
     }
-};
+
+}
 module.exports = { routes };

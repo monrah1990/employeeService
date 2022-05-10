@@ -1,122 +1,106 @@
- const setRedis = require('./setRedis.js');
- const getRedis = require('./getRedis.js');
- const putRedis = require('./putRedis.js');
+const { setRedis, getRedis, putRedis } = require('./redisHandler.js');
 
 
 
- // postHandler
+// postHandler
 
- const postHandler = (request, response) => {
+const postHandler = (request, response) => {
 
-     let data = '';
+    request.on('end', (response) => {
 
-     request.on('data', (chunk) => {
-         data += chunk;
-         console.log('data', data);
+        setRedis(request, response);
 
-     });
+        console.log('POST Successfull');
 
-     request.on('end', (response) => {
-         data = JSON.parse(data);
-         console.log('data', data);
+    });
 
-         setRedis(request, response, data);
-
-         console.log('POST Successfull')
-     });
-     response.write(
-         JSON.stringify({
-             message: "POST Successfull",
-         })
-     );
-     response.end();
-
- }
+    response.writeHead(200, {
+        "Content-Type": "application/json"
+    });
+    response.write(
+        JSON.stringify({
+            message: "P Successfull"
+        })
+    );
+    response.end();
 
 
+}
 
- // getHandler
+// getHandler
 
- const getHandler = (request, response) => {
-     const dataa = getRedis(request, response, dataObj);
-     const data = {
-         name: "frontendguruji",
-         category: "technology",
-         website: "frontendguruji.com",
-     };
+const getHandler = (request, response) => {
 
-     response.writeHead(200, {
-         "Content-Type": "application/json",
-     });
-     response.write(
-         JSON.stringify({
-             message: "GET Successfull",
-             data,
-         })
-     );
-     response.end();
- }
+    request.on('end', (response) => {
 
+        getRedis(request, response);
 
- // putHandler
+        console.log('GET Successfull');
 
- const putHandler = (request, response) => {
+    });
 
-     let data = '';
-
-     request.on('data', (chunk) => {
-         data += chunk;
-         console.log('data', data);
-
-     });
-
-     request.on('end', (response) => {
-         data = JSON.parse(data);
-         console.log('data', data);
-
-         putRedis(request, response, data);
-
-         console.log('PUT Successfull')
-     });
-     response.write(
-         JSON.stringify({
-             message: "PUT Successfull",
-
-         })
-     );
-     response.end();
-
- }
-
- // defaultHandler
- const defaultHandler = (request, response) => {
-     response.writeHead(200, {
-         "Content-Type": "application/json"
-     });
-     response.write(JSON.stringify({
-         message: 'Welcome to client server',
-     }));
-     response.end();
- };
+    response.writeHead(200, {
+        "Content-Type": "application/json"
+    });
+    response.write(
+        JSON.stringify({
+            message: "GET Successfull"
+        })
+    );
+    response.end();
+}
 
 
- //// urlHandler
- const urlHandler = (request, response) => {
-     response.writeHead(404, {
-         "Content-Type": "application/json"
-     });
-     response.write(JSON.stringify({
-         message: 'Resource not found',
-     }));
-     response.end();
- };
+// putHandler
+
+const putHandler = (request, response) => {
+
+    request.on('end', (response) => {
+
+        putRedis(request, response);
+
+        console.log('PUT Successfull')
+    });
+    response.write(
+        JSON.stringify({
+            message: "PUT Successfull"
+
+        })
+    );
+    response.end();
+
+}
+
+// defaultHandler
+const defaultHandler = (request, response) => {
+    response.writeHead(200, {
+        "Content-Type": "application/json"
+    });
+    response.write(JSON.stringify({
+        message: 'Welcome to client server'
+    }));
+    response.end();
+};
 
 
- module.exports = {
-     postHandler,
-     getHandler,
-     defaultHandler,
-     putHandler,
-     urlHandler
+//// urlHandler
+const urlHandler = (request, response) => {
+    response.writeHead(404, {
+        "Content-Type": "application/json"
+    });
+    response.write(JSON.stringify({
+        message: 'URL Not Found'
+    }));
+    response.end();
+};
 
- };
+
+
+module.exports = {
+    postHandler,
+    getHandler,
+    defaultHandler,
+    putHandler,
+    urlHandler
+
+};
