@@ -1,5 +1,5 @@
 const { postHandler, getHandler, putHandler, defaultHandler, urlHandler } = require('./controller.js');
-const clientData = require('./clientData');
+
 
 const routes = (request, response) => {
 
