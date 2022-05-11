@@ -1,23 +1,12 @@
-const httpHandler = require('./httpHandlers.js');
+function res(request, response) {
 
-let res = {
-    "": function index(request, response) {
-        response.writeHead(200);
-        response.end('Data save')
-    },
+    response.writeHead(200, {
+        "Content-Type": "application/json"
+    });
+    response.write(JSON.stringify({
+        message: 'Welcome to client server'
+    }));
+    response.end();
+};
 
-    "/foo": function index(request, response) {
-        response.writeHead(200);
-        response.end('url is foo')
-    },
-    "/count": function index(request, response) {
-        response.writeHead(200);
-        response.end('url is count')
-        return httpHandler.countNumber(request, response)
-    },
-    "/login": function index(request, response) {
-        response.end('url is count')
-        return httpHandler.login(request, response)
-    }
-}
-exports.routes = routes;
+module.exports = res;
