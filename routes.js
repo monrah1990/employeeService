@@ -1,55 +1,40 @@
-const { postHandler, getHandler, putHandler, defaultHandler, urlHandler } = require('./controller.js');
+const respond = require('./responseHandler');
+const { postHandler, putHandler, getHandler, defaultHandler } = require("./controler");
 
+const routes = (req, response) => {
 
-const routes = (request, response) => {
+    console.log("About to route a request for " + req.pathname);
 
-    const reqURL = request.url;
-    const reqMethod = request.method;
+    if (req.pathname === '/dataService') {
 
-    let data = "";
-    request.on('data', (chunk) => {
-        data += chunk;
-        dataObj = JSON.parse(data);
+        switch (req.method) {
 
-    });
-
-
-    switch (reqMethod) {
-
-        case "POST":
-            {
-                if (reqURL === '/dataService') {
-                    postHandler(request, response);
-                } else {
-                    urlHandler(request, response)
+            case "POST":
+                {
+                    postHandler(req, response);
+                    break;
+                }
+            case "GET":
+                {
+                    getHandler(req, response);
+                    break;
+                }
+            case "PUT":
+                {
+                    putHandler(req, response);
                 }
                 break;
-            }
-        case "GET":
-            {
-                if (reqURL === '/dataService') {
-                    getHandler(request, response);
-                } else {
-                    urlHandler(request, response);
+            default:
+                {
+                    defaultHandler(req, response);
                 }
-                break;
-            }
-        case "PUT":
-            {
-                if (reqURL === '/dataService') {
-                    putHandler(request, response);
-                } else {
-                    urlHandler(request, response);
-                }
-            }
-            break;
-        default:
-            {
-                defaultHandler(request, response);
-            }
 
+        }
 
+    } else {
+        console.log('No request handler found for' + req.pathname);
+        respond[404](response);
     }
-
 }
+
 module.exports = { routes };

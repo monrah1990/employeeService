@@ -1,5 +1,3 @@
-// const asyncRedis = require("async-redis");
-// const client = asyncRedis.createClient();
 const redis = require('redis');
 
 const client = redis.createClient();
@@ -10,8 +8,28 @@ client.connect();
 module.exports = client;
 
 
-/* const client = (() => {
+// const redis = require('redis');
+// const { promisifyAll } = require('bluebird');
 
-    return redis.createClient();
+// promisifyAll(redis);
 
-})(); */
+// const runApplication = async () => {
+//     // Connect to redis at 127.0.0.1 port 6379 no password.
+//     const client = redis.createClient();
+
+//     await client.setAsync('foo', 'bar');
+//     const fooValue = await client.getAsync('foo');
+//     console.log(fooValue);
+// };
+
+// runApplication();
+
+// client.set('foo', 'bar', (err, reply) => {
+//     if (err) throw err;
+//     console.log(reply);
+
+//     client.get('foo', (err, reply) => {
+//         if (err) throw err;
+//         console.log(reply);
+//     });
+// });
