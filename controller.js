@@ -5,10 +5,10 @@ const respond = require('./responseHandler');
 // postHandler
 function post(req, response) {
 
-    const body = JSON.parse(req.body);
+    body = JSON.parse(req.body);
 
     if (!body.id || !body.data || !body.parent) {
-        console.log('please cheack body');
+        console.log('Please cheack body');
         respond[400](response);
     } else {
 

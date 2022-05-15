@@ -3,21 +3,21 @@
 const respond = {
     '200': (response) => {
         response.writeHead(200, { 'Content-Type': 'text/plain' });
-        response.write('OK\nYour request is done.');
+        response.write('Your request is done.');
         response.end();
 
     },
     '201': (response) => {
-        response.writeHead(201, { 'Content-Type': 'text/plain' });
-        response.write('data dosent exists in redis!!!');
+        response.writeHead(200, { 'Content-Type': 'text/plain' });
+        response.write('Data dosen\'t exists in database!!!');
         response.end();
 
     },
-    '202': (response) => {
-        response.writeHead(200, { 'Content-Type': 'text/plain' });
-        response.write('data are saved or updated in redis');
-        response.end();
+    '202': (getInfo, response) => {
 
+        response.writeHead(200, { 'Content-Type': 'text/plain' });
+        response.write('here you are:' + JSON.stringify(getInfo));
+        response.end();
     },
     '400': (response) => {
         response.writeHead(400, { 'Content-Type': 'text/plain' });
@@ -31,26 +31,16 @@ const respond = {
     },
     '409': (response) => {
         response.writeHead(409, { 'Content-Type': 'text/plain' });
-        response.write('Id is duplicated.');
+        response.write('Id is duplicate');
         response.end();
 
     },
     '500': (response) => {
         response.writeHead(500, { 'Content-Type': 'text/plain' });
-        response.write('Internal Error\nerror in connect to dataBase.');
+        response.write('Internal Error\nError in connect to dataBase.');
         response.end();
 
-    },
-    '203': (getInfo, response) => {
-
-        response.writeHead(200, { 'Content-Type': 'text/plain' });
-        response.write('here you are:' + JSON.stringify(getInfo));
-        response.end();
-    },
-
-
-
-
+    }
 
 }
 module.exports = respond;

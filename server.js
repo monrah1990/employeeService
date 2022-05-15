@@ -11,7 +11,7 @@ function start(routes, handle) {
             body: ''
         }
         console.log('Request for ' + req.pathname + ' pathname and ' + req.method + ' method' + ' received.');
-
+        req.setEncoding('utf8');
         request.on('data', (chunk) => {
             req.body += chunk;
         });

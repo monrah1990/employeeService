@@ -15,7 +15,7 @@ function setRedis(body, response) {
 
             if (reply === 1) {
 
-                console.log('data exists in redis');
+                console.log('ID is duplicated');
                 respond[409](response);
 
             } else {
@@ -27,26 +27,26 @@ function setRedis(body, response) {
                     .then((reply) => {
 
                         if (reply === 1) {
-                            console.log('parent exists in redis');
 
+                            console.log('Parent exists in redis');
                             client.select(1);
                             client.hSet(id, data);
-                            console.log('save to dataStorage');
+                            console.log('Save to dataStorage');
                             client.select(2);
                             client.hSet(parent, `id.${id}`, id);
-                            console.log('save to dataMap');
-                            console.log('data are saved in redis');
+                            console.log('Save to dataMap');
+                            console.log('Data are saved in redis');
                             respond[200](response);
 
                         } else {
-                            console.log('parent dosent exists in redis');
+                            console.log('parent dosen\'t exists in redis');
                             client.select(1);
                             client.hSet(id, data);
-                            console.log('save to dataStorage');
+                            console.log('Save to dataStorage');
                             client.select(2);
                             client.hSet(id, `id.${id}`, id);
-                            console.log('save to dataMap');
-                            console.log('data are saved in redis');
+                            console.log('Save to dataMap')
+                            console.log('Data are saved in redis');
                             respond[200](response);
                         }
                     })
@@ -75,7 +75,7 @@ function putRedis(body, response) {
 
             if (reply !== 1) {
 
-                console.log('data dosent exists in redis');
+                console.log('Data dosen\'t exists in redis');
                 respond[201](response);
 
             } else {
@@ -110,7 +110,7 @@ function getRedis(req, response) {
 
             if (!data.userName) {
 
-                console.log('data dosent exists in redis');
+                console.log('Data dosen\'t exists in database');
                 respond[201](response);
             }
             return data;
@@ -127,7 +127,7 @@ function getRedis(req, response) {
                 .then((parent) => {
                     getInfo.parent = parent;
 
-                    respond[203](getInfo, response)
+                    respond[202](getInfo, response)
                 })
 
         })

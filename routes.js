@@ -8,7 +8,7 @@ function routes(req, response, handle) {
     if (typeof handle[req.pathname] === 'object') {
         return handle[req.pathname][req.method](req, response);
     } else {
-        console.log("No request handler found for " + req.pathname);
+        console.log("No request handler found for " + req.pathname + req.method);
         respond[404](response);
     }
 }
