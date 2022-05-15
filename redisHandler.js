@@ -20,32 +20,31 @@ function setRedis(body, response) {
 
             } else {
 
-
                 client.select(2);
-                client.get(parent, (reply, err) => {
+                client.exists(parent, (reply, err) => {
                         return reply;
                     })
                     .then((reply) => {
 
                         if (reply === 1) {
-                            console.log('parent dosent exists in redis');
-                            respond[409](response);
+                            console.log('parent exists in redis');
+
                             client.select(1);
-                            client.set(id, data);
+                            client.hSet(id, data);
                             console.log('save to dataStorage');
                             client.select(2);
-                            client.set(id, id);
+                            client.hSet(parent, `id.${id}`, id);
                             console.log('save to dataMap');
                             console.log('data are saved in redis');
                             respond[200](response);
 
                         } else {
-                            console.log('parent exists in redis');
+                            console.log('parent dosent exists in redis');
                             client.select(1);
-                            client.set(id, data);
+                            client.hSet(id, data);
                             console.log('save to dataStorage');
                             client.select(2);
-                            client.set(id, parent);
+                            client.hSet(id, `id.${id}`, id);
                             console.log('save to dataMap');
                             console.log('data are saved in redis');
                             respond[200](response);
@@ -74,7 +73,7 @@ function putRedis(body, response) {
         })
         .then((reply) => {
 
-            if (reply != 1) {
+            if (reply !== 1) {
 
                 console.log('data dosent exists in redis');
                 respond[201](response);
@@ -84,7 +83,7 @@ function putRedis(body, response) {
                 client.hSet(id, data);
                 console.log('dataStorage updated');
                 client.select(2);
-                client.set(id, parent);
+                client.hSet(parent, `id.${id}`, id);
                 console.log('dataMap updated');
                 respond[200](response);
             }
@@ -107,7 +106,7 @@ function getRedis(req, response) {
             return data
         })
         .then((data) => {
-            getInfo.data = data;
+
 
             if (!data.userName) {
 
@@ -120,8 +119,9 @@ function getRedis(req, response) {
         .then((data) => {
 
             getInfo.data = data;
+
             client.select(2);
-            client.get(id, (parent) => {
+            client.hGetAll(id, (parent) => {
                     return parent;
                 })
                 .then((parent) => {
