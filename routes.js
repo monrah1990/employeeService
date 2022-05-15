@@ -1,40 +1,15 @@
 const respond = require('./responseHandler');
-const { postHandler, putHandler, getHandler, defaultHandler } = require("./controler");
+const { postHandler, putHandler, getHandler, defaultHandler } = require("./controller");
 
-const routes = (req, response) => {
+function routes(req, response, handle) {
 
     console.log("About to route a request for " + req.pathname);
 
-    if (req.pathname === '/dataService') {
-
-        switch (req.method) {
-
-            case "POST":
-                {
-                    postHandler(req, response);
-                    break;
-                }
-            case "GET":
-                {
-                    getHandler(req, response);
-                    break;
-                }
-            case "PUT":
-                {
-                    putHandler(req, response);
-                }
-                break;
-            default:
-                {
-                    defaultHandler(req, response);
-                }
-
-        }
-
+    if (typeof handle[req.pathname] === 'object') {
+        return handle[req.pathname][req.method](req, response);
     } else {
-        console.log('No request handler found for' + req.pathname);
+        console.log("No request handler found for " + req.pathname);
         respond[404](response);
     }
 }
-
-module.exports = { routes };
+exports.routes = routes;

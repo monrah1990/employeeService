@@ -41,10 +41,10 @@ const respond = {
         response.end();
 
     },
-    '203': (info, response) => {
+    '203': (getInfo, response) => {
 
         response.writeHead(200, { 'Content-Type': 'text/plain' });
-        response.write('here you are:' + JSON.stringify(info));
+        response.write('here you are:' + JSON.stringify(getInfo));
         response.end();
     },
 
