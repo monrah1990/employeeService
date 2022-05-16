@@ -1,14 +1,14 @@
 const client = require('./redis');
 const { setRedis, getRedis, putRedis } = require('./redisHandler');
 const respond = require('./responseHandler');
-const valid = require('./validation');
+const { validBody, validParam } = require('./validation');
 
 // postHandler
 
 function post(req, response) {
 
     body = JSON.parse(req.body);
-    let validate = valid(body);
+    let validate = validBody(body);
 
     if (!validate) {
         console.log('Please cheack body');
@@ -18,19 +18,13 @@ function post(req, response) {
         setRedis(body, response);
     }
 
-    // if (!body.id || !body.data || !body.parent) {
-    //     console.log('Please cheack body');
-    //     respond[400](response);
-    // } else {
-
-    //     setRedis(body, response);
-    // }
 }
 ////  put
 function put(req, response) {
 
     body = JSON.parse(req.body);
-    let validate = valid(body);
+    let validate = validBody(body);
+
 
     if (!validate) {
         console.log('Please cheack body');
@@ -44,7 +38,11 @@ function put(req, response) {
 function get(req, response) {
 
 
-    if (!req.params.id) {
+    // let param = JSON.parse(JSON.stringify(req.params));
+    let param = req.params;
+    let validate = validParam(param);
+
+    if (!validate) {
         console.log('please cheack query');
         respond[400](response);
     } else {
@@ -55,3 +53,12 @@ function get(req, response) {
 exports.post = post;
 exports.put = put;
 exports.get = get;
+
+
+// if (!body.id || !body.data || !body.parent) {
+//     console.log('Please cheack body');
+//     respond[400](response);
+// } else {
+
+//     setRedis(body, response);
+// }

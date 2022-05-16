@@ -4,6 +4,7 @@ const url = require('url');
 
 function start(routes, handle) {
     function onRequest(request, response) {
+
         let req = {
             method: request.method,
             pathname: url.parse(request.url, true).pathname,
@@ -11,7 +12,7 @@ function start(routes, handle) {
             body: ''
         }
         console.log('Request for ' + req.pathname + ' pathname and ' + req.method + ' method' + ' received.');
-        // req.setEncoding('utf8');
+
         request.on('data', (chunk) => {
             req.body += chunk;
         });
