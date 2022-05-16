@@ -5,10 +5,10 @@ function routes(req, response, handle) {
 
     console.log("About to route a request for " + req.pathname);
 
-    if (typeof handle[req.pathname] === 'object') {
+    if (typeof handle[req.pathname] === 'object' && req.method in handle[req.pathname]) {
         return handle[req.pathname][req.method](req, response);
     } else {
-        console.log("No request handler found for " + req.pathname + req.method);
+        console.log("No request handler found for " + req.pathname + ' ' + req.method);
         respond[404](response);
     }
 }
