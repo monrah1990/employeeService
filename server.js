@@ -11,7 +11,7 @@ function start(routes, handle) {
             body: ''
         }
         console.log('Request for ' + req.pathname + ' pathname and ' + req.method + ' method' + ' received.');
-        req.setEncoding('utf8');
+        // req.setEncoding('utf8');
         request.on('data', (chunk) => {
             req.body += chunk;
         });
@@ -22,7 +22,7 @@ function start(routes, handle) {
         });
 
     }
-    http.createServer(onRequest).listen(8181);
+    http.createServer(onRequest).listen(81);
     console.log('The employee server has started.');
 }
 exports.start = start;

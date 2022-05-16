@@ -30,7 +30,7 @@ function put(req, response) {
 }
 //// get
 function get(req, response) {
-    // req.params = (JSON.parse(JSON.stringify(req.params)));
+
 
     if (!req.params.id) {
         console.log('please cheack query');

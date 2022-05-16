@@ -33,10 +33,10 @@ function setRedis(body, response) {
                             client.hSet(id, data);
                             console.log('Save to dataStorage');
                             client.select(2);
-                            client.hSet(parent, `id.${id}`, id);
+                            client.set(id, parent);
                             console.log('Save to dataMap');
                             console.log('Data are saved in redis');
-                            respond[200](response);
+                            respond[201](response);
 
                         } else {
                             console.log('parent dosen\'t exists in redis');
@@ -44,16 +44,16 @@ function setRedis(body, response) {
                             client.hSet(id, data);
                             console.log('Save to dataStorage');
                             client.select(2);
-                            client.hSet(id, `id.${id}`, id);
+                            client.set(id, id);
                             console.log('Save to dataMap')
                             console.log('Data are saved in redis');
-                            respond[200](response);
+                            respond[201](response);
                         }
                     })
             }
 
         }).catch((err) => {
-            console.log('error in connect to redis', err);
+            console.log('Error in connect to redis', err);
             respond[500](response);
         })
 
@@ -76,16 +76,16 @@ function putRedis(body, response) {
             if (reply !== 1) {
 
                 console.log('Data dosen\'t exists in redis');
-                respond[201](response);
+                respond[405](response);
 
             } else {
 
                 client.hSet(id, data);
                 console.log('dataStorage updated');
                 client.select(2);
-                client.hSet(parent, `id.${id}`, id);
+                client.set(id, parent);
                 console.log('dataMap updated');
-                respond[200](response);
+                respond[201](response);
             }
         }).catch((err) => {
             console.log('error in connect to redis', err);
@@ -102,16 +102,16 @@ function getRedis(req, response) {
 
     client.select(1);
     client.hGetAll(id, (data, err) => {
-            // reply = (JSON.parse(JSON.stringify(reply)))
+
             return data
         })
         .then((data) => {
 
 
-            if (!data.userName) {
+            if (Object.keys(data).length === 0) {
 
                 console.log('Data dosen\'t exists in database');
-                respond[201](response);
+                respond[405](response);
             }
             return data;
 
@@ -121,7 +121,7 @@ function getRedis(req, response) {
             getInfo.data = data;
 
             client.select(2);
-            client.hGetAll(id, (parent) => {
+            client.get(id, (parent) => {
                     return parent;
                 })
                 .then((parent) => {

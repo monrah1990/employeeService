@@ -1,13 +1,13 @@
 // const { getSystemErrorMap } = require("util");
 
 const respond = {
-    '200': (response) => {
-        response.writeHead(200, { 'Content-Type': 'text/plain' });
+    '201': (response) => {
+        response.writeHead(201, { 'Content-Type': 'text/plain' });
         response.write('Your request is done.');
         response.end();
 
     },
-    '201': (response) => {
+    '203': (response) => {
         response.writeHead(200, { 'Content-Type': 'text/plain' });
         response.write('Data dosen\'t exists in database!!!');
         response.end();
@@ -27,6 +27,11 @@ const respond = {
     '404': (response) => {
         response.writeHead(404, { 'Content-Type': 'text/plain' });
         response.write('URL Not found.\nPlease check url, method and body.');
+        response.end();
+    },
+    '405': (response) => {
+        response.writeHead(404, { 'Content-Type': 'text/plain' });
+        response.write('The server can not find ID, please change it');
         response.end();
     },
     '409': (response) => {
