@@ -1,5 +1,5 @@
-const respond = require('./responseHandler');
-const { postHandler, putHandler, getHandler, defaultHandler } = require("./controller");
+const respond = require('../controller/responseHandler');
+const { postHandler, putHandler, getHandler, defaultHandler } = require("../controller/controller");
 
 function routes(req, response, handle) {
 

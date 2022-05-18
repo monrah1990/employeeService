@@ -1,8 +1,8 @@
 const Ajv = require('ajv');
 const ajv = new Ajv();
+const status = require('./status');
 
 function validBody(body) {
-
     const schema = {
         type: 'object',
         properties: {
@@ -31,7 +31,7 @@ function validBody(body) {
 
 function validParam(parm) {
 
-    const schem = {
+    const schema = {
 
         type: 'object',
         properties: {
@@ -40,7 +40,7 @@ function validParam(parm) {
         required: ['id'],
         additionalProperties: false
     }
-    let validate = ajv.validate(schem, parm);
+    let validate = ajv.validate(schema, parm);
     return validate;
 }
 

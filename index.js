@@ -1,6 +1,6 @@
-const server = require('./server');
-const router = require('./routes');
-const controller = require('./controller');
+const server = require('./server/server');
+const router = require('./routing/routes');
+const controller = require('./controller/controller');
 
 let handle = {};
 handle['/dataService'] = {
