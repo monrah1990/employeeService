@@ -37,36 +37,18 @@ async function setRedis(body, response) {
                 client.select(2);
                 client.set(id, parent);
 
-                console.log({
-                    status: status.postPut,
-                    message: message.saveMap
-                });
-
-                console.log('Data are saved in redis');
                 let res = {
                     'status': status.postPut,
                     'message': message.save,
                 }
                 return res;
 
-
-
             } else {
-                console.log({
-
-                    status: status.conflict,
-                    message: message.checkParent
-                });
-
                 let res = {
                     'status': status.conflict,
                     'message': message.checkParent,
                 }
-
                 return res;
-
-
-
             }
 
         }
@@ -114,7 +96,7 @@ async function putRedis(body, response) {
             let existParent = await client.exists(parent);
 
             if (id === parent || existParent) {
-                console.log('admin or parent exists');
+                console.log('parent exists or they are admin');
                 client.select(1);
                 client.hSet(id, data);
 
