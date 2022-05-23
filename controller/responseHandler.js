@@ -1,10 +1,34 @@
-// const { getSystemErrorMap } = require("util");
-
 function respond(status, message, response) {
     response.writeHead(status, { 'Content-Type': 'application/json' });
-    response.end(message);
+    response.end(JSON.stringify({
+        data: message,
+    }));
 }
 module.exports = respond;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // '201': (response) => {
 //     response.writeHead(201, { 'Content-Type': 'application/json' });

@@ -1,7 +1,7 @@
 const client = require('./redis');
-const respond = require('../controller/responseHandler');
+
 const { status, message } = require('../controller/status');
-const { resolveRef } = require('ajv/dist/compile');
+
 
 async function setRedis(body, response) {
     let id = body.id;
@@ -14,15 +14,13 @@ async function setRedis(body, response) {
         let existId = await client.exists(id);
 
         if (existId === 1) {
-            console.log({
 
-                status: status.conflict,
-                message: message.dupId
-            });
+            let res = {
+                'status': status.conflict,
+                'message': message.dupId,
+            }
 
-            respond(status.conflict, message.dupId, response);
-
-
+            return res;
         } else {
 
             client.select(2);
@@ -43,8 +41,15 @@ async function setRedis(body, response) {
                     status: status.postPut,
                     message: message.saveMap
                 });
+
                 console.log('Data are saved in redis');
-                respond(status.postPut, message.save, response);
+                let res = {
+                    'status': status.postPut,
+                    'message': message.save,
+                }
+                return res;
+
+
 
             } else {
                 console.log({
@@ -53,28 +58,34 @@ async function setRedis(body, response) {
                     message: message.checkParent
                 });
 
-                respond(status.conflict, message.checkParent, response);
+                let res = {
+                    'status': status.conflict,
+                    'message': message.checkParent,
+                }
+
+                return res;
+
 
 
             }
 
         }
-    } catch {
-        (err) => {
-
-            console.log({
-                status: status.error,
-                message: message.error
-            });
-
-            respond(status.error, message.error, response);
+    } catch (err) {
 
 
+        let res = {
+            'status': status.error,
+            'message': message.error,
         }
+
+        return res;
+
+
+
+
     }
-
-
 }
+
 ///// put
 async function putRedis(body, response) {
 
@@ -89,13 +100,13 @@ async function putRedis(body, response) {
 
         if (!existId) {
 
-            console.log({
+            let res = {
+                'status': status.notFound,
+                'message': message.noId,
+            }
 
-                status: status.notFound,
-                message: message.noId
-            });
+            return res;
 
-            respond(status.notFound, message.noId, response);
 
         } else {
 
@@ -112,41 +123,37 @@ async function putRedis(body, response) {
                 client.set(id, parent);
                 console.log('dataMap updated');
 
-                console.log({
+                let res = {
+                    'status': status.postPut,
+                    'message': message.update,
+                }
 
-                    status: status.postPut,
-                    message: message.update
-                });
+                return res;
 
-                respond(status.postPut, message.update, response);
 
             } else {
-                console.log({
-
-                    status: status.conflict,
-                    message: message.checkParent
-                });
-
-                respond(status.conflict, message.checkParent, response);
-
-
                 console.log('Please check your parenttt')
+                let res = {
+                    'status': status.conflict,
+                    'message': message.checkParent,
+                }
+
+                return res;
 
             }
         }
-    } catch {
-        (err) => {
-            console.log({
-
-                status: status.error,
-                message: message.error
-            });
-
-            respond(status.error, message.checkParent, response);
-
+    } catch (err) {
+        let res = {
+            'status': status.error,
+            'message': message.error,
         }
+
+        return res;
+
+
     }
 }
+
 //// get
 async function getRedis(req, response) {
 
@@ -159,14 +166,12 @@ async function getRedis(req, response) {
         let data = await client.hGetAll(id);
 
         if (Object.keys(data).length === 0) {
+            let res = {
+                'status': status.notFound,
+                'message': message.noId,
+            }
 
-            console.log({
-
-                status: status.notFound,
-                message: message.noId
-            });
-
-            respond(status.notFound, message.noId, response);
+            return res;
         }
 
         getInfo.data = data;
@@ -175,35 +180,26 @@ async function getRedis(req, response) {
         let parent = await client.get(id);
 
         getInfo.parent = parent;
-        // respond[202](getInfo, response);
-        console.log({
-
-            status: status.ok,
-            message: message.get
-        });
-
-
-        let message2 = message.get + JSON.stringify(getInfo)
-
-
-
-        respond(status.ok, message2, response);
-
-
-
-    } catch {
-        (err) => {
-            console.log({
-
-                status: status.error,
-                message: message.error
-            });
-
-            respond(status.error, message.checkParent, response);
-
+        let res = {
+            'status': status.ok,
+            'message': getInfo,
         }
+
+        return res;
+
+
+    } catch (err) {
+        let res = {
+            'status': status.error,
+            'message': message.error,
+        }
+
+        return res;
+
+
     }
 }
+
 exports.setRedis = setRedis;
 exports.putRedis = putRedis;
 exports.getRedis = getRedis;

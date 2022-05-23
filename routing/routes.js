@@ -1,5 +1,6 @@
 const respond = require('../controller/responseHandler');
 const { postHandler, putHandler, getHandler, defaultHandler } = require("../controller/controller");
+const { status, message } = require('../controller/status');
 
 function routes(req, response, handle) {
 
@@ -9,7 +10,7 @@ function routes(req, response, handle) {
         return handle[req.pathname][req.method](req, response);
     } else {
         console.log("No request handler found for " + req.pathname + ' ' + req.method);
-        respond[404](response);
+        respond(status.badRequest, message.badReq, response);
     }
 }
 exports.routes = routes;

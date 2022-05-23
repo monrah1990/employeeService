@@ -10,6 +10,7 @@ const { status, message } = require('./status');
 function post(req, response) {
 
     body = JSON.parse(req.body);
+
     let validate = validBody(body);
 
     if (!validate) {
@@ -17,13 +18,20 @@ function post(req, response) {
             status: status.badRequest,
             message: message.checkBody
         });
-        respond(req, status.badRequest, message.checkBody, response);
+        respond(status.badRequest, message.checkBody, response);
 
     } else {
-        setRedis(body, response);
-        // .then((res) => {
-        //     respond(status.notFound, message.noId, response);
-        // })
+        setRedis(body, response)
+            .then((res) => {
+                console.log(res);
+                respond(res.status, res.message, response);
+            })
+            .catch((res) => {
+                console.log(res);
+                respond(res.status, res.message, response);
+
+            });
+
 
     }
 }
@@ -41,7 +49,16 @@ function put(req, response) {
         respond(status.badRequest, message.checkBody, response);
     } else {
 
-        putRedis(body, response);
+        putRedis(body, response)
+            .then((res) => {
+                console.log(res);
+                respond(res.status, res.message, response);
+            })
+            .catch((res) => {
+                console.log(res);
+                respond(res.status, res.message, response);
+
+            });
 
     }
 }
@@ -61,7 +78,16 @@ function get(req, response) {
         respond(status.badRequest, message.checkQuery, response);
     } else {
 
-        getRedis(req, response);
+        getRedis(req, response)
+            .then((res) => {
+                console.log(res);
+                respond(res.status, res.message, response);
+            })
+            .catch((res) => {
+                console.log(res);
+                respond(res.status, res.message, response);
+
+            });
     }
 }
 exports.post = post;

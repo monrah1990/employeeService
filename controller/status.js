@@ -20,11 +20,11 @@ let message = {
     'checkBody': 'Please check body',
     'checkParent': 'please check parent',
     'checkQuery': 'Please check query',
-    'badReq': 'Bad request\nplease cheack body or query.',
-    'url': 'URL Not found.\nPlease check url, method and body.',
+    'badReq': 'Bad request, please cheack body or query.',
+    'url': 'URL Not found. Please check url, method and body.',
     'saveStor': 'Save to dataStorage',
     'saveMap': 'Save to dataMap',
-    'error': 'Internal Error\nError in connect to dataBase.',
+    'error': 'Internal Error, Error in connect to dataBase.',
 }
 module.exports = {
     status,
